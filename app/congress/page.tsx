@@ -102,6 +102,9 @@ export default function CongressPage() {
             🎁 שובר {CONGRESS_TICKET.voucher.value} · קוד {CONGRESS_TICKET.voucher.code}
           </span>
         </div>
+        <p className="text-xs text-accent mt-3 border-t border-border pt-2.5">
+          💳 {CONGRESS_TICKET.refundNote}
+        </p>
       </div>
 
       {hasSampleData && (

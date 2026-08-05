@@ -88,20 +88,24 @@ export const REAL_HOTEL: HotelStay = {
     "Standard Room · Flexible Saver Member Exclusive Rate · 5 לילות · 506.53€ + 37.98€ תוספות = 544.51€ סה״כ · ניתן לביטול ללא עלות עד 7 ימים לפני ההגעה · טלפון: +49 30 20052800 · Front desk: berlin@hiexberlin.com",
 };
 
-// Real Salsa Congress ticket — Eventbrite order confirmed 05/08/2026.
+// Real Salsa Congress ticket — Eventbrite order confirmed 05/08/2026,
+// upgraded same day: the original Cuban Basic Pass (161.92€) was refunded
+// and swapped for a cheaper, broader 3day Basic Pass (146.25€).
 export const CONGRESS_TICKET = {
   eventName: "Berlin Salsacongress 2026 - Jungle Edition",
-  passType: "Cuban Basic Pass",
-  orderTotal: "161.92 €",
+  passType: "3day Basic Pass - Special Cat I",
+  orderTotal: "146.25 €",
   venue: "Tempodrom Berlin",
   venueAddress: "Möckernstraße 10, 10963 Berlin, Germany",
   generalStart: "יום חמישי 27/08/2026, 20:00 (שעון ברלין)",
   passAccess:
-    "הכרטיס של גיל (Cuban Basic Pass) כולל: כל סדנאות הקובני ביום שישי ושבת, סדנאות לפני המסיבות בשישי-שבת-ראשון, וכניסה לסושיאלים בשישי-שבת-ראשון החל מ-17:00. לא כולל Preparty או Social Dance Trainings.",
+    "הכרטיס הנוכחי של גיל (3day Basic Pass) כולל: סדנאות, מופעי Stargate, סושיאלים וסמינרים מיום שישי 28/08 בשעה 14:00 ועד יום שני 31/08 בשעה 01:00. לא כולל Social Dance Trainings או ה-Preparty ביום חמישי 27/08.",
   registrationNote:
     "יש להירשם מראש לסדנאות ספציפיות — ההרשמה נפתחת כ-4 ימים לפני האירוע (~23/08/2026) ותישלח במייל מ-Eventbrite.",
   nameChangeDeadline: "15/08/2026 (שינוי שם/דחייה לשנה הבאה בלבד, בלי החזר כספי)",
   whatsappCommunity: "https://chat.whatsapp.com/FArJ6526pdu52SXnHbeuYP",
+  refundNote:
+    "הכרטיס הקודם (Cuban Basic Pass, 161.92€) הוחלף — הוחזר לכרטיס האמריקן אקספרס, אמור להופיע עד 15/08/2026.",
   voucher: {
     code: "6UCZE",
     value: "15€",
