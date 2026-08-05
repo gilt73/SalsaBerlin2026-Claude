@@ -16,6 +16,7 @@ export const NAV_ITEMS: NavItem[] = [
   { href: "/congress", label: "קונגרס", icon: "💃" },
   { href: "/moto", label: "רכיבה", icon: "🏍️" },
   { href: "/expenses", label: "כספים", icon: "💶" },
+  { href: "/todo", label: "משימות", icon: "✅" },
   { href: "/music", label: "מוזיקה", icon: "🎧" },
   { href: "/transport", label: "ניידות", icon: "🚕" },
   { href: "/food", label: "קולינריה", icon: "🍽️" },

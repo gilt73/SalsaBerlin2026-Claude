@@ -3,6 +3,7 @@
 import { useState } from "react";
 import PageHeader from "@/components/PageHeader";
 import { useLocalStorage, genId } from "@/lib/storage";
+import { REAL_HOTEL } from "@/lib/tripData";
 import { HotelStay } from "@/lib/types";
 
 const EMPTY_FORM = {
@@ -15,7 +16,9 @@ const EMPTY_FORM = {
 };
 
 export default function HotelPage() {
-  const [stays, setStays, hydrated] = useLocalStorage<HotelStay[]>("hotelStays", []);
+  const [stays, setStays, hydrated] = useLocalStorage<HotelStay[]>("hotelStays", [
+    REAL_HOTEL,
+  ]);
   const [form, setForm] = useState(EMPTY_FORM);
   const [showForm, setShowForm] = useState(false);
 
@@ -43,11 +46,11 @@ export default function HotelPage() {
       />
 
       <div className="rounded-2xl border border-border bg-surface-muted p-4 text-sm text-foreground/70 mb-5">
-        <p className="font-semibold text-foreground mb-1">⚠️ אין כרגע הזמנת לינה פעילה</p>
+        <p className="font-semibold text-foreground mb-1">💡 עוד לינה נדרשת</p>
         <p>
-          הזמנה קודמת (Hotel Olympik Congress) בוטלה. הוסיפו כאן את פרטי
-          המלונות בפועל — לברלין (לפני/אחרי הקונגרס), לאזור מוריץ וורניגרודה
-          לאורך מסלול הרכיבה.
+          המלון בברלין (26–31/08) מאושר. עבור אזור מוריץ וורניגרודה לאורך
+          מסלול הרכיבה (31/08–02/09) עדיין לא נמצאה הזמנה בתיבת הדואר —
+          הוסיפו כאן כשתתבצע.
         </p>
       </div>
 
@@ -91,11 +94,19 @@ export default function HotelPage() {
                 </div>
               )}
             </div>
+            {stay.notes && (
+              <p className="text-xs text-foreground/55 mt-3 border-t border-border pt-2.5 leading-relaxed">
+                {stay.notes}
+              </p>
+            )}
             {stay.address && (
               <a
-                href={`https://maps.google.com/?q=${encodeURIComponent(
-                  `${stay.name} ${stay.address} ${stay.city}`
-                )}`}
+                href={
+                  stay.mapUrl ||
+                  `https://maps.google.com/?q=${encodeURIComponent(
+                    `${stay.name} ${stay.address} ${stay.city}`
+                  )}`
+                }
                 target="_blank"
                 rel="noreferrer"
                 className="inline-block mt-3 text-xs font-medium rounded-lg px-3 py-1.5 bg-surface-muted"

@@ -3,7 +3,7 @@
 import { useMemo, useState } from "react";
 import PageHeader from "@/components/PageHeader";
 import { useLocalStorage, genId } from "@/lib/storage";
-import { SAMPLE_CONGRESS_EVENTS } from "@/lib/tripData";
+import { CONGRESS_TICKET, SAMPLE_CONGRESS_EVENTS } from "@/lib/tripData";
 import { CongressEvent } from "@/lib/types";
 
 const CATEGORY_LABEL: Record<CongressEvent["category"], string> = {
@@ -73,13 +73,44 @@ export default function CongressPage() {
         subtitle="לו״ז סדנאות, שיעורים ומסיבות לפי ימים ושעות"
       />
 
+      <div className="rounded-2xl border border-border bg-surface p-4 mb-5">
+        <div className="flex items-center justify-between mb-2">
+          <h2 className="text-sm font-bold">🎟️ הכרטיס שלך — {CONGRESS_TICKET.passType}</h2>
+          <span className="text-xs text-foreground/50">{CONGRESS_TICKET.orderTotal}</span>
+        </div>
+        <p className="text-sm font-medium">{CONGRESS_TICKET.venue}</p>
+        <p className="text-xs text-foreground/55">{CONGRESS_TICKET.venueAddress}</p>
+        <p className="text-xs text-foreground/60 mt-2">
+          פתיחה כללית: {CONGRESS_TICKET.generalStart}
+        </p>
+        <p className="text-xs text-foreground/70 mt-2 leading-relaxed border-t border-border pt-2.5">
+          {CONGRESS_TICKET.passAccess}
+        </p>
+        <p className="text-xs text-brand-2 mt-2 font-medium">
+          ⏰ {CONGRESS_TICKET.registrationNote}
+        </p>
+        <div className="flex flex-wrap gap-2 mt-3">
+          <a
+            href={CONGRESS_TICKET.whatsappCommunity}
+            target="_blank"
+            rel="noreferrer"
+            className="text-xs font-medium rounded-lg px-3 py-1.5 bg-surface-muted"
+          >
+            💬 קהילת WhatsApp
+          </a>
+          <span className="text-xs font-medium rounded-lg px-3 py-1.5 bg-surface-muted">
+            🎁 שובר {CONGRESS_TICKET.voucher.value} · קוד {CONGRESS_TICKET.voucher.code}
+          </span>
+        </div>
+      </div>
+
       {hasSampleData && (
         <div className="rounded-2xl border border-border bg-surface-muted p-4 text-sm text-foreground/70 mb-5">
-          <p className="font-semibold text-foreground mb-1">📋 לו״ז לדוגמה</p>
+          <p className="font-semibold text-foreground mb-1">📋 לו״ז מפורט — לדוגמה</p>
           <p>
-            הלו״ז הרשמי של Berlin Salsacongress 2026 עדיין לא פורסם (נמצאה רק
-            הרשמה להגרלת כרטיסים בתיבת הדואר). ערכו/מחקו והוסיפו פריטים לפי
-            הלו״ז הרשמי כשיתפרסם.
+            הכרטיס אושר, אך הלו״ז המדויק (שעות סדנאות ספציפיות) נשלח רק
+            כ-4 ימים לפני האירוע. הפריטים למטה הם דוגמה למבנה — ערכו/מחקו
+            והוסיפו לפי הלו״ז בפועל כשיתקבל.
           </p>
         </div>
       )}

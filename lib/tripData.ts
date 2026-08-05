@@ -1,13 +1,18 @@
 // Seed / reference data for the trip.
-// Flight data below is REAL — pulled from the Israir booking confirmation
-// (booking no. 4727224, sent 04/08/2026 to gil.tzallach@gmail.com).
-// Everything marked `isSample: true` is placeholder content the spec doc
-// didn't provide real data for yet — edit freely from within the app.
+// Flight, hotel and congress-ticket data below are REAL — pulled straight
+// from confirmation emails in gil.tzallach@gmail.com:
+//   - Israir booking no. 4727224 (flights + baggage + cancellation cover)
+//   - Holiday Inn Express Berlin City Centre confirmation #87008071
+//   - Eventbrite order for Berlin Salsacongress 2026 - Jungle Edition
+// Everything marked `isSample: true` is placeholder content no email/spec
+// covered yet (e.g. the hour-by-hour workshop schedule, which the congress
+// only sends out ~4 days before the event) — edit freely from within the app.
 
 import {
   CongressEvent,
   FlightLeg,
   FoodSpot,
+  HotelStay,
   MotoDay,
   RentalOption,
 } from "./types";
@@ -17,8 +22,10 @@ export const TRIP_TITLE = "קונגרס סלסה + רכיבת אופנוע — �
 // Key dates used for the dashboard countdowns.
 export const OUTBOUND_DEPARTURE_ISO = "2026-08-26T14:40:00+03:00"; // TLV local time
 export const RETURN_DEPARTURE_ISO = "2026-09-02T19:05:00+02:00"; // BER local time
-// Congress start date is a placeholder until the official schedule is confirmed.
-export const CONGRESS_START_ISO_PLACEHOLDER = "2026-08-27T18:00:00+02:00";
+// Real: general congress start per the Eventbrite ticket (Tempodrom Berlin).
+// Note: Gil's own pass (Cuban Basic) only grants access from Friday — see
+// CONGRESS_TICKET below.
+export const CONGRESS_START_ISO = "2026-08-27T20:00:00+02:00";
 
 export const REAL_FLIGHTS: FlightLeg[] = [
   {
@@ -37,7 +44,7 @@ export const REAL_FLIGHTS: FlightLeg[] = [
     arriveAirport: "ברלין",
     arriveCode: "BER",
     passenger: "GIL TZALLACH",
-    notes: "מחלקת תיירים · כולל מזוודה אחת (הזמנה 4727224)",
+    notes: "מחלקת תיירים · כולל מזוודה אחת · מגן ביטול עד 3 ימים (הזמנה 4727224)",
   },
   {
     id: "return-254",
@@ -65,6 +72,41 @@ export const FLIGHT_BOOKING_SUMMARY = {
   baseFare: "411 $",
   baggage: "2 × מזוודה — 65$ כל אחת",
   cardHolder: "GIL TZALLACH",
+};
+
+// Real hotel booking — confirmed 05/08/2026 (IHG confirmation #87008071).
+export const REAL_HOTEL: HotelStay = {
+  id: "hotel-hiex-berlin",
+  name: "Holiday Inn Express Berlin City Centre",
+  address: "Stresemannstrasse 49, 10963",
+  city: "Berlin, Germany",
+  checkIn: "2026-08-26",
+  checkOut: "2026-08-31",
+  confirmationNumber: "87008071",
+  mapUrl: "https://maps.google.com/?q=Stresemannstrasse+49+10963+Berlin",
+  notes:
+    "Standard Room · Flexible Saver Member Exclusive Rate · 5 לילות · 506.53€ + 37.98€ תוספות = 544.51€ סה״כ · ניתן לביטול ללא עלות עד 7 ימים לפני ההגעה · טלפון: +49 30 20052800 · Front desk: berlin@hiexberlin.com",
+};
+
+// Real Salsa Congress ticket — Eventbrite order confirmed 05/08/2026.
+export const CONGRESS_TICKET = {
+  eventName: "Berlin Salsacongress 2026 - Jungle Edition",
+  passType: "Cuban Basic Pass",
+  orderTotal: "161.92 €",
+  venue: "Tempodrom Berlin",
+  venueAddress: "Möckernstraße 10, 10963 Berlin, Germany",
+  generalStart: "יום חמישי 27/08/2026, 20:00 (שעון ברלין)",
+  passAccess:
+    "הכרטיס של גיל (Cuban Basic Pass) כולל: כל סדנאות הקובני ביום שישי ושבת, סדנאות לפני המסיבות בשישי-שבת-ראשון, וכניסה לסושיאלים בשישי-שבת-ראשון החל מ-17:00. לא כולל Preparty או Social Dance Trainings.",
+  registrationNote:
+    "יש להירשם מראש לסדנאות ספציפיות — ההרשמה נפתחת כ-4 ימים לפני האירוע (~23/08/2026) ותישלח במייל מ-Eventbrite.",
+  nameChangeDeadline: "15/08/2026 (שינוי שם/דחייה לשנה הבאה בלבד, בלי החזר כספי)",
+  whatsappCommunity: "https://chat.whatsapp.com/FArJ6526pdu52SXnHbeuYP",
+  voucher: {
+    code: "6UCZE",
+    value: "15€",
+    note: "שובר שהתקבל מ-Berlin Salsacongress, ניתן למימוש כקוד פרומו בכל אירוע שלהם ב-Eventbrite (תוקף כ-22 חודשים).",
+  },
 };
 
 // Real 2-day route from the spec doc. A third day placeholder is added
@@ -226,6 +268,33 @@ export const SAMPLE_FOOD_SPOTS: FoodSpot[] = [
     type: "מסעדה",
     notes: "הצעה לבדיקה — עיירת חצי-כפר עם מסעדות טיפוסיות גרמניות.",
     isSample: true,
+  },
+];
+
+// A few real, actionable starter tasks based on what's confirmed vs. still
+// open (e.g. no motorcycle rental booking was found in the inbox). Delete
+// or complete freely — this is just a helpful starting point.
+export const STARTER_TODOS = [
+  {
+    title: "לשכור אופנוע (Yamaha MT-07 / BMW F 750 GS)",
+    note: "טרם נמצאה הזמנה בפועל — לתאם איסוף בברלין לפני 31/08.",
+    dueDate: "2026-08-24",
+    priority: "high" as const,
+  },
+  {
+    title: "להירשם לסדנאות הקונגרס כשההרשמה תיפתח",
+    note: "נשלח במייל מ-Eventbrite כ-4 ימים לפני האירוע (~23/08/2026).",
+    dueDate: "2026-08-23",
+    priority: "high" as const,
+  },
+  {
+    title: "לשקול מימוש שובר 15€ (קוד 6UCZE) בחנות הקונגרס",
+    priority: "low" as const,
+  },
+  {
+    title: "לבצע צ׳ק-אין מקוון לשתי הטיסות",
+    note: "24–3 שעות לפני כל טיסה, דרך אתר/אפליקציית ישראייר.",
+    priority: "normal" as const,
   },
 ];
 

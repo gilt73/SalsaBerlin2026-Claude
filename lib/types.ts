@@ -94,6 +94,18 @@ export type FoodSpot = {
   isSample?: boolean;
 };
 
+export type TodoPriority = "high" | "normal" | "low";
+
+export type TodoItem = {
+  id: string;
+  title: string;
+  note?: string;
+  dueDate?: string; // yyyy-mm-dd
+  priority: TodoPriority;
+  done: boolean;
+  createdAt: number;
+};
+
 export const EXPENSE_CATEGORY_LABELS: Record<ExpenseCategory, string> = {
   fuel: "דלק",
   food: "אוכל",

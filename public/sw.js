@@ -12,6 +12,7 @@ const APP_SHELL = [
   "/congress",
   "/moto",
   "/expenses",
+  "/todo",
   "/music",
   "/transport",
   "/food",

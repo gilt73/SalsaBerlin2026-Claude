@@ -3,7 +3,7 @@
 import Countdown from "@/components/Countdown";
 import QuickCard from "@/components/QuickCard";
 import {
-  CONGRESS_START_ISO_PLACEHOLDER,
+  CONGRESS_START_ISO,
   OUTBOUND_DEPARTURE_ISO,
   REAL_FLIGHTS,
   TRIP_TITLE,
@@ -15,6 +15,7 @@ const QUICK_LINKS = [
   { href: "/congress", title: "קונגרס סלסה", subtitle: "לו״ז סדנאות ומסיבות", icon: "💃" },
   { href: "/moto", title: "רכיבת אופנוע", subtitle: "מסלולים יומיים והשכרה", icon: "🏍️" },
   { href: "/expenses", title: "כספים", subtitle: "מעקב הוצאות + המרת מטבע", icon: "💶" },
+  { href: "/todo", title: "משימות", subtitle: "רשימת דברים לעשות", icon: "✅" },
   { href: "/music", title: "מוזיקה", subtitle: "פלייליסטים לרכיבה ומנוחה", icon: "🎧" },
   { href: "/transport", title: "ניידות", subtitle: "Uber, Bolt, תחבורה ציבורית", icon: "🚕" },
   { href: "/food", title: "קולינריה", subtitle: "המלצות לאורך המסלול", icon: "🍽️" },
@@ -38,11 +39,7 @@ export default function DashboardPage() {
         className="flex gap-3 overflow-x-auto no-scrollbar pb-1 -mx-4 px-4 lg:mx-0 lg:px-0"
       >
         <Countdown label="לטיסה לברלין" targetISO={OUTBOUND_DEPARTURE_ISO} icon="✈️" />
-        <Countdown
-          label="לתחילת הקונגרס (משוער)"
-          targetISO={CONGRESS_START_ISO_PLACEHOLDER}
-          icon="💃"
-        />
+        <Countdown label="לתחילת הקונגרס" targetISO={CONGRESS_START_ISO} icon="💃" />
       </section>
 
       <section className="mt-7">
