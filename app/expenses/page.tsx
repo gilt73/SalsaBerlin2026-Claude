@@ -1,6 +1,17 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
+import {
+  Wallet,
+  Fuel,
+  UtensilsCrossed,
+  BedDouble,
+  Ticket,
+  ShoppingBag,
+  Package,
+  X,
+  type LucideIcon,
+} from "lucide-react";
 import CurrencyConverter from "@/components/CurrencyConverter";
 import PageHeader from "@/components/PageHeader";
 import { loadExpenses, saveExpenses } from "@/lib/db";
@@ -14,6 +25,18 @@ import {
 
 const CATEGORIES = Object.keys(EXPENSE_CATEGORY_LABELS) as ExpenseCategory[];
 const CURRENCY_SYMBOL: Record<string, string> = { EUR: "€", ILS: "₪", USD: "$" };
+
+// <option> elements can't render icon components, so EXPENSE_CATEGORY_ICONS
+// (plain emoji) stays for the <select> below; everywhere else on the page
+// uses these proper icon components instead.
+const CATEGORY_ICON_COMPONENT: Record<ExpenseCategory, LucideIcon> = {
+  fuel: Fuel,
+  food: UtensilsCrossed,
+  lodging: BedDouble,
+  attractions: Ticket,
+  shopping: ShoppingBag,
+  other: Package,
+};
 
 function todayISO() {
   return new Date().toISOString().slice(0, 10);
@@ -89,7 +112,7 @@ export default function ExpensesPage() {
   return (
     <div>
       <PageHeader
-        icon="💶"
+        icon={Wallet}
         title="כספים והוצאות"
         subtitle="מעקב הוצאות לפי קטגוריה + המרת מטבע"
       />
@@ -119,10 +142,11 @@ export default function ExpensesPage() {
             const total = byCategory.totals[cat];
             if (total === 0) return null;
             const pct = Math.round((total / byCategory.max) * 100);
+            const Icon = CATEGORY_ICON_COMPONENT[cat];
             return (
               <div key={cat} className="flex items-center gap-2 text-xs">
-                <span className="w-16 shrink-0 text-foreground/60">
-                  {EXPENSE_CATEGORY_ICONS[cat]} {EXPENSE_CATEGORY_LABELS[cat]}
+                <span className="flex items-center gap-1.5 w-24 shrink-0 text-foreground/60">
+                  <Icon size={13} /> {EXPENSE_CATEGORY_LABELS[cat]}
                 </span>
                 <div className="flex-1 h-2 rounded-full bg-surface-muted overflow-hidden">
                   <div className="h-full brand-gradient" style={{ width: `${pct}%` }} />
@@ -212,31 +236,36 @@ export default function ExpensesPage() {
         )}
 
         <div className="flex flex-col gap-2">
-          {expenses.map((e) => (
-            <div
-              key={e.id}
-              className="flex items-center gap-3 rounded-xl border border-border bg-surface p-3"
-            >
-              <span className="text-xl shrink-0">{EXPENSE_CATEGORY_ICONS[e.category]}</span>
-              <div className="flex-1 min-w-0">
-                <p className="text-sm font-medium truncate">
-                  {e.note || EXPENSE_CATEGORY_LABELS[e.category]}
-                </p>
-                <p className="text-xs text-foreground/45">{e.date}</p>
-              </div>
-              <p className="font-semibold shrink-0">
-                {CURRENCY_SYMBOL[e.currency]}
-                {e.amount.toFixed(2)}
-              </p>
-              <button
-                onClick={() => removeExpense(e.id)}
-                className="text-xs text-danger shrink-0"
-                aria-label="מחיקה"
+          {expenses.map((e) => {
+            const Icon = CATEGORY_ICON_COMPONENT[e.category];
+            return (
+              <div
+                key={e.id}
+                className="flex items-center gap-3 rounded-xl border border-border bg-surface p-3"
               >
-                ✕
-              </button>
-            </div>
-          ))}
+                <div className="w-9 h-9 rounded-full bg-brand-1/10 text-brand-1 flex items-center justify-center shrink-0">
+                  <Icon size={16} />
+                </div>
+                <div className="flex-1 min-w-0">
+                  <p className="text-sm font-medium truncate">
+                    {e.note || EXPENSE_CATEGORY_LABELS[e.category]}
+                  </p>
+                  <p className="text-xs text-foreground/45">{e.date}</p>
+                </div>
+                <p className="font-semibold shrink-0">
+                  {CURRENCY_SYMBOL[e.currency]}
+                  {e.amount.toFixed(2)}
+                </p>
+                <button
+                  onClick={() => removeExpense(e.id)}
+                  className="text-foreground/35 hover:text-danger shrink-0 transition-colors"
+                  aria-label="מחיקה"
+                >
+                  <X size={16} />
+                </button>
+              </div>
+            );
+          })}
           {loaded && expenses.length === 0 && (
             <p className="text-center py-8 text-sm text-foreground/45">
               עדיין לא נרשמו הוצאות

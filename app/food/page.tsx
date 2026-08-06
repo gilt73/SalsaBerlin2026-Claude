@@ -1,6 +1,8 @@
 "use client";
 
 import { useMemo, useState } from "react";
+import { UtensilsCrossed, ClipboardList, MapPin, X } from "lucide-react";
+import NavButtons from "@/components/NavButtons";
 import PageHeader from "@/components/PageHeader";
 import { useLocalStorage, genId } from "@/lib/storage";
 import { SAMPLE_FOOD_SPOTS } from "@/lib/tripData";
@@ -42,14 +44,16 @@ export default function FoodPage() {
   return (
     <div>
       <PageHeader
-        icon="🍽️"
+        icon={UtensilsCrossed}
         title="המלצות קולינריות"
         subtitle="מסעדות, בתי קפה ותחנות עצירה לאורך המסלול"
       />
 
       {hasSampleData && (
         <div className="rounded-2xl border border-border bg-surface-muted p-4 text-sm text-foreground/70 mb-5">
-          <p className="font-semibold text-foreground mb-1">📋 הצעות לבדיקה</p>
+          <p className="flex items-center gap-1.5 font-semibold text-foreground mb-1">
+            <ClipboardList size={15} /> הצעות לבדיקה
+          </p>
           <p>
             הפריטים הבאים הם הצעות ראשוניות לפי אזור — יש לוודא ולעדכן לפי
             מיקום בפועל וביקורות עדכניות לפני היציאה לדרך.
@@ -60,7 +64,9 @@ export default function FoodPage() {
       <div className="flex flex-col gap-5">
         {grouped.map(([area, areaSpots]) => (
           <section key={area}>
-            <h2 className="text-sm font-bold text-foreground/70 mb-2.5">📍 {area}</h2>
+            <h2 className="flex items-center gap-1.5 text-sm font-bold text-foreground/70 mb-2.5">
+              <MapPin size={14} /> {area}
+            </h2>
             <div className="flex flex-col gap-2.5">
               {areaSpots.map((spot) => (
                 <div
@@ -79,13 +85,22 @@ export default function FoodPage() {
                     {spot.notes && (
                       <p className="text-xs text-foreground/55 mt-1">{spot.notes}</p>
                     )}
+                    {!spot.isSample && (
+                      <NavButtons
+                        location={{
+                          name: spot.name,
+                          address: spot.mapUrl ? undefined : `${spot.name}, ${spot.area}`,
+                        }}
+                        className="mt-2"
+                      />
+                    )}
                   </div>
                   <button
                     onClick={() => removeSpot(spot.id)}
-                    className="text-xs text-danger shrink-0"
+                    className="text-foreground/35 hover:text-danger shrink-0 transition-colors"
                     aria-label="מחיקה"
                   >
-                    ✕
+                    <X size={16} />
                   </button>
                 </div>
               ))}

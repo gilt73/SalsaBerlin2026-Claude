@@ -1,5 +1,16 @@
 // Shared types for the trip app
 
+// A place the app can build a Waze/Google Maps link to and/or fetch
+// weather for. `lat`/`lon` are optional — when present, nav links use
+// them for precision; weather lookups require them (falls back to
+// "no forecast" gracefully otherwise).
+export type Location = {
+  name: string;
+  address?: string;
+  lat?: number;
+  lon?: number;
+};
+
 export type FlightLeg = {
   id: string;
   direction: "outbound" | "return";
@@ -11,10 +22,12 @@ export type FlightLeg = {
   departTime: string; // HH:mm
   departAirport: string;
   departCode: string;
+  departLocation?: Location;
   arriveDate: string; // dd/mm/yyyy
   arriveTime: string; // HH:mm
   arriveAirport: string;
   arriveCode: string;
+  arriveLocation?: Location;
   passenger: string;
   notes?: string;
 };
@@ -26,9 +39,13 @@ export type HotelStay = {
   city: string;
   checkIn: string; // yyyy-mm-dd
   checkOut: string; // yyyy-mm-dd
+  checkInTime?: string; // HH:mm, when known
+  checkOutTime?: string; // HH:mm, when known
   confirmationNumber: string;
   mapUrl?: string;
   notes?: string;
+  lat?: number;
+  lon?: number;
 };
 
 export type CongressEvent = {
@@ -51,6 +68,9 @@ export type MotoDay = {
   duration: string;
   highlights: string;
   isSample?: boolean;
+  // Where the day's ride ends — used for the "navigate here" button and
+  // the day's weather chip in the full itinerary.
+  destination?: Location;
 };
 
 export type RentalOption = {
@@ -104,6 +124,48 @@ export type TodoItem = {
   priority: TodoPriority;
   done: boolean;
   createdAt: number;
+};
+
+export type PackingCategory =
+  | "moto"
+  | "dance"
+  | "documents"
+  | "electronics"
+  | "toiletries"
+  | "other";
+
+export type PackingItem = {
+  id: string;
+  title: string;
+  category: PackingCategory;
+  packed: boolean;
+  createdAt: number;
+};
+
+export const PACKING_CATEGORY_LABELS: Record<PackingCategory, string> = {
+  moto: "ציוד רכיבה",
+  dance: "בגדי ריקוד/קונגרס",
+  documents: "מסמכים",
+  electronics: "אלקטרוניקה",
+  toiletries: "טיפוח",
+  other: "שונות",
+};
+
+export const PACKING_CATEGORY_ICONS: Record<PackingCategory, string> = {
+  moto: "🏍️",
+  dance: "💃",
+  documents: "📄",
+  electronics: "🔌",
+  toiletries: "🧴",
+  other: "🎒",
+};
+
+export type EmergencyContact = {
+  id: string;
+  name: string;
+  phone: string; // tel: href-ready, e.g. "112" or "+4930xxxxxxx"
+  note?: string;
+  isPlaceholder?: boolean;
 };
 
 export const EXPENSE_CATEGORY_LABELS: Record<ExpenseCategory, string> = {

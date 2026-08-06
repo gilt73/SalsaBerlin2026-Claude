@@ -10,6 +10,7 @@
 
 import {
   CongressEvent,
+  EmergencyContact,
   FlightLeg,
   FoodSpot,
   HotelStay,
@@ -39,10 +40,12 @@ export const REAL_FLIGHTS: FlightLeg[] = [
     departTime: "14:40",
     departAirport: "נתב״ג",
     departCode: "TLV",
+    departLocation: { name: "נתב״ג (TLV)", address: "Ben Gurion Airport, Israel", lat: 32.0114, lon: 34.8867 },
     arriveDate: "26/08/2026",
     arriveTime: "18:05",
     arriveAirport: "ברלין",
     arriveCode: "BER",
+    arriveLocation: { name: "שדה התעופה ברלין (BER)", address: "Berlin Brandenburg Airport, Germany", lat: 52.3667, lon: 13.5033 },
     passenger: "GIL TZALLACH",
     notes: "מחלקת תיירים · כולל מזוודה אחת · מגן ביטול עד 3 ימים (הזמנה 4727224)",
   },
@@ -57,10 +60,12 @@ export const REAL_FLIGHTS: FlightLeg[] = [
     departTime: "19:05",
     departAirport: "ברלין",
     departCode: "BER",
+    departLocation: { name: "שדה התעופה ברלין (BER)", address: "Berlin Brandenburg Airport, Germany", lat: 52.3667, lon: 13.5033 },
     arriveDate: "03/09/2026",
     arriveTime: "00:05",
     arriveAirport: "נתב״ג",
     arriveCode: "TLV",
+    arriveLocation: { name: "נתב״ג (TLV)", address: "Ben Gurion Airport, Israel", lat: 32.0114, lon: 34.8867 },
     passenger: "GIL TZALLACH",
     notes: "מחלקת תיירים · כולל מזוודה אחת · נחיתה לאחר חצות (הזמנה 4727224)",
   },
@@ -82,10 +87,16 @@ export const REAL_HOTEL: HotelStay = {
   city: "Berlin, Germany",
   checkIn: "2026-08-26",
   checkOut: "2026-08-31",
+  checkInTime: "15:00",
+  checkOutTime: "12:00",
   confirmationNumber: "87008071",
   mapUrl: "https://maps.google.com/?q=Stresemannstrasse+49+10963+Berlin",
   notes:
     "Standard Room · Flexible Saver Member Exclusive Rate · 5 לילות · 506.53€ + 37.98€ תוספות = 544.51€ סה״כ · ניתן לביטול ללא עלות עד 7 ימים לפני ההגעה · טלפון: +49 30 20052800 · Front desk: berlin@hiexberlin.com",
+  // Central Berlin, city-level precision — plenty for the weather chip;
+  // navigation itself uses the exact address above, not these coordinates.
+  lat: 52.502,
+  lon: 13.382,
 };
 
 // Real Salsa Congress ticket — Eventbrite order confirmed 05/08/2026,
@@ -97,6 +108,8 @@ export const CONGRESS_TICKET = {
   orderTotal: "146.25 €",
   venue: "Tempodrom Berlin",
   venueAddress: "Möckernstraße 10, 10963 Berlin, Germany",
+  venueLat: 52.499,
+  venueLon: 13.383,
   generalStart: "יום חמישי 27/08/2026, 20:00 (שעון ברלין)",
   passAccess:
     "הכרטיס הנוכחי של גיל (3day Basic Pass) כולל: סדנאות, מופעי Stargate, סושיאלים וסמינרים מיום שישי 28/08 בשעה 14:00 ועד יום שני 31/08 בשעה 01:00. לא כולל Social Dance Trainings או ה-Preparty ביום חמישי 27/08.",
@@ -126,6 +139,7 @@ export const MOTO_DAYS: MotoDay[] = [
     duration: "כ־3–5 שעות (כולל עצירות נינוחות)",
     highlights:
       "רכיבה רגועה להסתגלות לאופנוע, כבישים מישוריים ונוף כפרי, עצירה בנקודות תצפית ועיירות ציוריות. לינה באזור מוריץ.",
+    destination: { name: "וארן (Waren/Müritz)", lat: 53.5192, lon: 12.6775 },
   },
   {
     id: "moto-day2",
@@ -135,6 +149,7 @@ export const MOTO_DAYS: MotoDay[] = [
     duration: "כ־5 שעות (בקצב רגוע)",
     highlights:
       "כבישים מפותלים ונופי הרים. רכיבה זהירה ומבוקרת תוך היכרות מעמיקה עם משקל והתנהגות האופנוע. לינה באזור ורניגרודה.",
+    destination: { name: "ורניגרודה (Wernigerode)", lat: 51.8353, lon: 10.7865 },
   },
   {
     id: "moto-day3",
@@ -144,6 +159,7 @@ export const MOTO_DAYS: MotoDay[] = [
     duration: "להשלמה — תלוי במסלול הבחירה",
     highlights: "יש להשאיר מרווח בטיחון להחזרת האופנוע ולהגעה לשדה התעופה.",
     isSample: true,
+    destination: { name: "ברלין", address: "Berlin, Germany", lat: 52.502, lon: 13.382 },
   },
 ];
 
@@ -306,6 +322,71 @@ export const TRANSPORT_LINKS = [
   { id: "uber", name: "Uber", url: "https://m.uber.com", icon: "🚗" },
   { id: "bolt", name: "Bolt", url: "https://bolt.eu", icon: "🚕" },
   { id: "wolt", name: "Wolt (משלוחי אוכל)", url: "https://wolt.com", icon: "🛵" },
-  { id: "bvg", name: "BVG — תחבורה ציבורית ברלין", url: "https://www.bvg.de", icon: "🚇" },
+  // English site version per Phase 2 localization requirement — BVG's
+  // German-only route/train names otherwise show up untranslated.
+  { id: "bvg", name: "BVG — תחבורה ציבורית ברלין (אנגלית)", url: "https://www.bvg.de/en", icon: "🚇" },
   { id: "maps", name: "Google Maps", url: "https://maps.google.com", icon: "🗺️" },
+];
+
+// Emergency & support quick-dial (Phase 2, section 2). German general
+// emergency numbers are real/public. The motorcycle rental and travel
+// insurance lines are placeholders — fill in once those are booked.
+export const EMERGENCY_CONTACTS: EmergencyContact[] = [
+  {
+    id: "de-emergency",
+    name: "חירום כללי בגרמניה (משטרה/כיבוי/אמבולנס)",
+    phone: "112",
+  },
+  {
+    id: "de-police",
+    name: "משטרה (לא דחוף)",
+    phone: "110",
+  },
+  {
+    id: "moto-rental",
+    name: "השכרת אופנוע — שירות לקוחות/גרירה",
+    phone: "",
+    note: "טרם נשכר אופנוע — למלא לאחר ההזמנה.",
+    isPlaceholder: true,
+  },
+  {
+    id: "travel-insurance",
+    name: "ביטוח נסיעות — מוקד חירום",
+    phone: "",
+    note: "למלא לפי פוליסת הביטוח שתירכש.",
+    isPlaceholder: true,
+  },
+  {
+    id: "hotel-front-desk",
+    name: "Holiday Inn Express Berlin — Front Desk",
+    phone: "+493020052800",
+  },
+];
+
+// Document slots rendered on the /documents page — each backed by a
+// FileAttachment (IndexedDB blob, on-device only).
+export const DOCUMENT_SLOTS = [
+  { key: "doc-passport", label: "דרכון (צילום)", icon: "🛂" },
+  { key: "doc-insurance", label: "פוליסת ביטוח בריאות/נסיעות", icon: "🩺" },
+  { key: "doc-congress-ticket", label: "כרטיס הקונגרס (Eventbrite)", icon: "🎟️" },
+  { key: "doc-moto-rental", label: "אישור השכרת אופנוע", icon: "🏍️" },
+  { key: "doc-hotel-confirmation", label: "אישור הזמנת מלון", icon: "🏨" },
+];
+
+// Starter packing list (Phase 2, section 6) — categorized, editable.
+export const STARTER_PACKING_ITEMS = [
+  { title: "קסדה", category: "moto" as const },
+  { title: "כפפות רכיבה", category: "moto" as const },
+  { title: "מעיל רכיבה עמיד במים", category: "moto" as const },
+  { title: "מגפי רכיבה", category: "moto" as const },
+  { title: "בגדי ריקוד לערבים", category: "dance" as const },
+  { title: "נעלי סלסה", category: "dance" as const },
+  { title: "דרכון", category: "documents" as const },
+  { title: "כרטיסי טיסה מודפסים/במכשיר", category: "documents" as const },
+  { title: "פוליסת ביטוח", category: "documents" as const },
+  { title: "מטען + כבל טעינה", category: "electronics" as const },
+  { title: "פאוור בנק", category: "electronics" as const },
+  { title: "מתאם שקע לגרמניה", category: "electronics" as const },
+  { title: "קרם הגנה", category: "toiletries" as const },
+  { title: "תרופות אישיות", category: "toiletries" as const },
 ];

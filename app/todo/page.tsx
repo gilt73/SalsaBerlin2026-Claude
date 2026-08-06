@@ -1,6 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
+import { ListChecks, Check, CalendarClock, X } from "lucide-react";
 import PageHeader from "@/components/PageHeader";
 import { genId, useLocalStorage } from "@/lib/storage";
 import { STARTER_TODOS } from "@/lib/tripData";
@@ -82,7 +83,7 @@ export default function TodoPage() {
   return (
     <div>
       <PageHeader
-        icon="✅"
+        icon={ListChecks}
         title="משימות לטיול"
         subtitle={
           hydrated
@@ -172,13 +173,13 @@ export default function TodoPage() {
             <button
               onClick={() => toggleDone(todo.id)}
               aria-label={todo.done ? "סמן כלא הושלם" : "סמן כהושלם"}
-              className={`mt-0.5 shrink-0 w-6 h-6 rounded-full border-2 flex items-center justify-center text-xs ${
+              className={`mt-0.5 shrink-0 w-6 h-6 rounded-full border-2 flex items-center justify-center ${
                 todo.done
                   ? "bg-accent border-accent text-white"
                   : "border-border text-transparent"
               }`}
             >
-              ✓
+              <Check size={13} strokeWidth={3} />
             </button>
             <div className="flex-1 min-w-0">
               <div className="flex items-center gap-2 flex-wrap">
@@ -197,15 +198,17 @@ export default function TodoPage() {
                 <p className="text-xs text-foreground/55 mt-1">{todo.note}</p>
               )}
               {todo.dueDate && (
-                <p className="text-xs text-foreground/45 mt-1">📅 {todo.dueDate}</p>
+                <p className="flex items-center gap-1 text-xs text-foreground/45 mt-1">
+                  <CalendarClock size={12} /> {todo.dueDate}
+                </p>
               )}
             </div>
             <button
               onClick={() => removeTodo(todo.id)}
-              className="text-xs text-danger shrink-0"
+              className="text-foreground/35 hover:text-danger shrink-0 transition-colors"
               aria-label="מחיקה"
             >
-              ✕
+              <X size={16} />
             </button>
           </div>
         ))}

@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { Heebo } from "next/font/google";
 import "./globals.css";
 import Nav from "@/components/Nav";
+import FloatingHomeButton from "@/components/FloatingHomeButton";
 import ServiceWorkerRegister from "@/components/ServiceWorkerRegister";
 
 const heebo = Heebo({
@@ -40,6 +41,7 @@ export default function RootLayout({
       <body className="min-h-full flex flex-col antialiased">
         <ServiceWorkerRegister />
         <Nav />
+        <FloatingHomeButton />
         <main className="flex-1 lg:mr-64 pb-24 lg:pb-8 pt-safe">
           <div className="mx-auto w-full max-w-3xl lg:max-w-5xl px-4 py-4 lg:px-8 lg:py-8">
             {children}

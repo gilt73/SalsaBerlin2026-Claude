@@ -1,7 +1,10 @@
 "use client";
 
 import { useState } from "react";
+import { Hotel as HotelIcon, X } from "lucide-react";
+import NavButtons from "@/components/NavButtons";
 import PageHeader from "@/components/PageHeader";
+import WeatherChip from "@/components/WeatherChip";
 import { useLocalStorage, genId } from "@/lib/storage";
 import { REAL_HOTEL } from "@/lib/tripData";
 import { HotelStay } from "@/lib/types";
@@ -40,7 +43,7 @@ export default function HotelPage() {
   return (
     <div>
       <PageHeader
-        icon="🏨"
+        icon={HotelIcon}
         title="לינה ומלונות"
         subtitle="פרטי הזמנות, כתובות ומועדי צ׳ק-אין/אאוט"
       />
@@ -73,15 +76,19 @@ export default function HotelPage() {
               </div>
               <button
                 onClick={() => removeStay(stay.id)}
-                className="text-xs text-danger shrink-0"
+                className="text-foreground/35 hover:text-danger shrink-0 transition-colors"
+                aria-label="מחיקה"
               >
-                מחיקה
+                <X size={16} />
               </button>
             </div>
-            <div className="flex gap-4 mt-3 text-sm">
+            <div className="flex gap-4 mt-3 text-sm items-start">
               <div>
                 <p className="text-xs text-foreground/50">צ׳ק-אין</p>
                 <p className="font-medium">{stay.checkIn || "—"}</p>
+                {stay.checkIn && stay.lat != null && stay.lon != null && (
+                  <WeatherChip lat={stay.lat} lon={stay.lon} dateISO={stay.checkIn} />
+                )}
               </div>
               <div>
                 <p className="text-xs text-foreground/50">צ׳ק-אאוט</p>
@@ -100,19 +107,10 @@ export default function HotelPage() {
               </p>
             )}
             {stay.address && (
-              <a
-                href={
-                  stay.mapUrl ||
-                  `https://maps.google.com/?q=${encodeURIComponent(
-                    `${stay.name} ${stay.address} ${stay.city}`
-                  )}`
-                }
-                target="_blank"
-                rel="noreferrer"
-                className="inline-block mt-3 text-xs font-medium rounded-lg px-3 py-1.5 bg-surface-muted"
-              >
-                🗺️ ניווט למלון
-              </a>
+              <NavButtons
+                location={{ name: stay.name, address: `${stay.address} ${stay.city}`, lat: stay.lat, lon: stay.lon }}
+                className="mt-3"
+              />
             )}
           </div>
         ))}

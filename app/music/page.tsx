@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { Headphones, ExternalLink, X } from "lucide-react";
 import PageHeader from "@/components/PageHeader";
 import { useLocalStorage, genId } from "@/lib/storage";
 import { PlaylistLink } from "@/lib/types";
@@ -43,7 +44,7 @@ export default function MusicPage() {
   return (
     <div>
       <PageHeader
-        icon="🎧"
+        icon={Headphones}
         title="מוזיקה"
         subtitle="פלייליסטים בספוטיפיי לרכיבה ולזמני מנוחה"
       />
@@ -66,16 +67,16 @@ export default function MusicPage() {
                     href={link.url}
                     target="_blank"
                     rel="noreferrer"
-                    className="text-xs text-accent font-medium"
+                    className="inline-flex items-center gap-1 text-xs text-accent font-medium"
                   >
-                    פתיחה בספוטיפיי ↗
+                    פתיחה בספוטיפיי <ExternalLink size={12} />
                   </a>
                   <button
                     onClick={() => removeLink(link.id)}
-                    className="text-xs text-danger"
+                    className="text-foreground/35 hover:text-danger transition-colors"
                     aria-label="מחיקה"
                   >
-                    ✕
+                    <X size={16} />
                   </button>
                 </div>
               </div>

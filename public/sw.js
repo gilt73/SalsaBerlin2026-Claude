@@ -4,15 +4,18 @@
 // localStorage/IndexedDB, not on a server, so caching the shell pages +
 // static assets is enough for full offline use once visited.
 
-const CACHE_NAME = "salsa-berlin-2026-v1";
+const CACHE_NAME = "salsa-berlin-2026-v2";
 const APP_SHELL = [
   "/",
+  "/itinerary",
   "/flights",
   "/hotel",
   "/congress",
   "/moto",
+  "/documents",
   "/expenses",
   "/todo",
+  "/packing",
   "/music",
   "/transport",
   "/food",

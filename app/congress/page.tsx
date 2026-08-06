@@ -1,9 +1,12 @@
 "use client";
 
 import { useMemo, useState } from "react";
+import { PartyPopper, Ticket, MessageCircle, Gift, CreditCard, Clock, ClipboardList, X } from "lucide-react";
+import NavButtons from "@/components/NavButtons";
 import PageHeader from "@/components/PageHeader";
+import WeatherChip from "@/components/WeatherChip";
 import { useLocalStorage, genId } from "@/lib/storage";
-import { CONGRESS_TICKET, SAMPLE_CONGRESS_EVENTS } from "@/lib/tripData";
+import { CONGRESS_START_ISO, CONGRESS_TICKET, SAMPLE_CONGRESS_EVENTS } from "@/lib/tripData";
 import { CongressEvent } from "@/lib/types";
 
 const CATEGORY_LABEL: Record<CongressEvent["category"], string> = {
@@ -68,48 +71,65 @@ export default function CongressPage() {
   return (
     <div>
       <PageHeader
-        icon="💃"
+        icon={PartyPopper}
         title="קונגרס הסלסה"
         subtitle="לו״ז סדנאות, שיעורים ומסיבות לפי ימים ושעות"
       />
 
       <div className="rounded-2xl border border-border bg-surface p-4 mb-5">
         <div className="flex items-center justify-between mb-2">
-          <h2 className="text-sm font-bold">🎟️ הכרטיס שלך — {CONGRESS_TICKET.passType}</h2>
+          <h2 className="flex items-center gap-1.5 text-sm font-bold">
+            <Ticket size={15} className="text-brand-1" /> הכרטיס שלך — {CONGRESS_TICKET.passType}
+          </h2>
           <span className="text-xs text-foreground/50">{CONGRESS_TICKET.orderTotal}</span>
         </div>
         <p className="text-sm font-medium">{CONGRESS_TICKET.venue}</p>
         <p className="text-xs text-foreground/55">{CONGRESS_TICKET.venueAddress}</p>
+        <div className="flex items-center gap-3 mt-2">
+          <NavButtons
+            location={{
+              name: CONGRESS_TICKET.venue,
+              address: CONGRESS_TICKET.venueAddress,
+            }}
+          />
+          <WeatherChip
+            lat={CONGRESS_TICKET.venueLat}
+            lon={CONGRESS_TICKET.venueLon}
+            dateISO={CONGRESS_START_ISO.slice(0, 10)}
+          />
+        </div>
         <p className="text-xs text-foreground/60 mt-2">
           פתיחה כללית: {CONGRESS_TICKET.generalStart}
         </p>
         <p className="text-xs text-foreground/70 mt-2 leading-relaxed border-t border-border pt-2.5">
           {CONGRESS_TICKET.passAccess}
         </p>
-        <p className="text-xs text-brand-2 mt-2 font-medium">
-          ⏰ {CONGRESS_TICKET.registrationNote}
+        <p className="flex items-start gap-1.5 text-xs text-brand-2 mt-2 font-medium">
+          <Clock size={13} className="shrink-0 mt-0.5" /> {CONGRESS_TICKET.registrationNote}
         </p>
         <div className="flex flex-wrap gap-2 mt-3">
           <a
             href={CONGRESS_TICKET.whatsappCommunity}
             target="_blank"
             rel="noreferrer"
-            className="text-xs font-medium rounded-lg px-3 py-1.5 bg-surface-muted"
+            className="inline-flex items-center gap-1.5 text-xs font-medium rounded-lg px-3 py-1.5 bg-surface-muted"
           >
-            💬 קהילת WhatsApp
+            <MessageCircle size={14} /> קהילת WhatsApp
           </a>
-          <span className="text-xs font-medium rounded-lg px-3 py-1.5 bg-surface-muted">
-            🎁 שובר {CONGRESS_TICKET.voucher.value} · קוד {CONGRESS_TICKET.voucher.code}
+          <span className="inline-flex items-center gap-1.5 text-xs font-medium rounded-lg px-3 py-1.5 bg-surface-muted">
+            <Gift size={14} /> שובר {CONGRESS_TICKET.voucher.value} · קוד {CONGRESS_TICKET.voucher.code}
           </span>
         </div>
-        <p className="text-xs text-accent mt-3 border-t border-border pt-2.5">
-          💳 {CONGRESS_TICKET.refundNote}
+        <p className="flex items-start gap-1.5 text-xs text-accent mt-3 border-t border-border pt-2.5">
+          <CreditCard size={13} className="shrink-0 mt-0.5" /> {CONGRESS_TICKET.refundNote}
         </p>
       </div>
 
       {hasSampleData && (
         <div className="rounded-2xl border border-border bg-surface-muted p-4 text-sm text-foreground/70 mb-5">
-          <p className="font-semibold text-foreground mb-1">📋 לו״ז מפורט — לדוגמה</p>
+          <p className="flex items-center gap-1.5 font-semibold text-foreground mb-1">
+            <ClipboardList size={15} /> לו״ז מפורט — לדוגמה
+          </p>
           <p>
             הכרטיס אושר, אך הלו״ז המדויק (שעות סדנאות ספציפיות) נשלח רק
             כ-4 ימים לפני האירוע. הפריטים למטה הם דוגמה למבנה — ערכו/מחקו
@@ -151,10 +171,10 @@ export default function CongressPage() {
                   </div>
                   <button
                     onClick={() => removeEvent(ev.id)}
-                    className="text-xs text-danger shrink-0"
+                    className="text-foreground/35 hover:text-danger shrink-0 transition-colors"
                     aria-label="מחיקה"
                   >
-                    ✕
+                    <X size={16} />
                   </button>
                 </li>
               ))}

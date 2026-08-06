@@ -1,6 +1,8 @@
 "use client";
 
+import { Plane, PlaneTakeoff } from "lucide-react";
 import FileAttachment from "@/components/FileAttachment";
+import NavButtons from "@/components/NavButtons";
 import PageHeader from "@/components/PageHeader";
 import { FLIGHT_BOOKING_SUMMARY, REAL_FLIGHTS } from "@/lib/tripData";
 import { FlightLeg } from "@/lib/types";
@@ -33,8 +35,8 @@ function FlightCard({ flight }: { flight: FlightLeg }) {
         <div className="flex-1 flex flex-col items-center gap-1 text-foreground/40">
           <span className="text-xs">{flight.date}</span>
           <span className="w-full border-t border-dashed border-border relative">
-            <span className="absolute -top-2 left-1/2 -translate-x-1/2 text-sm">
-              ✈️
+            <span className="absolute -top-[9px] left-1/2 -translate-x-1/2 bg-surface px-0.5 text-brand-1">
+              <Plane size={14} />
             </span>
           </span>
         </div>
@@ -54,6 +56,14 @@ function FlightCard({ flight }: { flight: FlightLeg }) {
         </p>
       )}
 
+      {flight.departLocation && (
+        <div className="flex items-center gap-2 mt-3">
+          <PlaneTakeoff size={14} className="text-foreground/40 shrink-0" />
+          <span className="text-xs text-foreground/50 shrink-0">ניווט לשדה:</span>
+          <NavButtons location={flight.departLocation} />
+        </div>
+      )}
+
       <div className="mt-3">
         <FileAttachment
           storageKey={`boarding-pass-${flight.id}`}
@@ -68,7 +78,7 @@ export default function FlightsPage() {
   return (
     <div>
       <PageHeader
-        icon="✈️"
+        icon={Plane}
         title="טיסות ומסמכי נסיעה"
         subtitle={`הזמנה מס׳ ${FLIGHT_BOOKING_SUMMARY.bookingRef} · ${FLIGHT_BOOKING_SUMMARY.cardHolder}`}
       />

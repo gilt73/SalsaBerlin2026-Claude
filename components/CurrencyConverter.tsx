@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { ArrowLeftRight, ArrowRightLeft } from "lucide-react";
 import { getEurToIlsRate, RateCache } from "@/lib/currency";
 
 const SOURCE_LABEL: Record<RateCache["source"], string> = {
@@ -28,7 +29,9 @@ export default function CurrencyConverter() {
   return (
     <div className="rounded-2xl border border-border bg-surface p-4">
       <div className="flex items-center justify-between mb-3">
-        <h2 className="text-sm font-semibold">💱 מחשבון המרה</h2>
+        <h2 className="flex items-center gap-1.5 text-sm font-semibold">
+          <ArrowRightLeft size={15} className="text-brand-1" /> מחשבון המרה
+        </h2>
         {rate && (
           <span className="text-[11px] text-foreground/45">
             {SOURCE_LABEL[rate.source]} · 1€ = {rate.rate.toFixed(3)}₪
@@ -56,9 +59,9 @@ export default function CurrencyConverter() {
           onClick={() =>
             setDirection((d) => (d === "eurToIls" ? "ilsToEur" : "eurToIls"))
           }
-          className="mt-5 shrink-0 w-10 h-10 rounded-full bg-surface-muted flex items-center justify-center text-lg"
+          className="mt-5 shrink-0 w-10 h-10 rounded-full bg-surface-muted flex items-center justify-center hover:bg-brand-1/10 transition-colors"
         >
-          ⇄
+          <ArrowLeftRight size={16} />
         </button>
 
         <div className="flex-1">

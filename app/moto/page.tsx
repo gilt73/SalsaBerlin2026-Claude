@@ -1,13 +1,17 @@
 "use client";
 
+import { Bike, ShieldCheck, Clock, Check } from "lucide-react";
+import NavButtons from "@/components/NavButtons";
 import PageHeader from "@/components/PageHeader";
+import WeatherChip from "@/components/WeatherChip";
+import { toISODate } from "@/lib/date";
 import { MOTO_DAYS, MOTO_SAFETY_NOTES, RENTAL_OPTIONS } from "@/lib/tripData";
 
 export default function MotoPage() {
   return (
     <div>
       <PageHeader
-        icon="🏍️"
+        icon={Bike}
         title="מסלולי רכיבה על אופנוע"
         subtitle="איסוף בברלין · רכיבה בקצב אישי ורגוע"
       />
@@ -31,17 +35,31 @@ export default function MotoPage() {
               )}
             </div>
             <p className="text-sm leading-relaxed">{d.route}</p>
-            <p className="text-xs text-foreground/50 mt-2">⏱️ {d.duration}</p>
+            <div className="flex items-center gap-3 mt-2 flex-wrap">
+              <p className="flex items-center gap-1 text-xs text-foreground/50">
+                <Clock size={13} /> {d.duration}
+              </p>
+              {d.destination && (
+                <WeatherChip
+                  lat={d.destination.lat}
+                  lon={d.destination.lon}
+                  dateISO={toISODate(d.date)}
+                />
+              )}
+            </div>
             <p className="text-xs text-foreground/60 mt-2 leading-relaxed border-t border-border pt-2">
               {d.highlights}
             </p>
+            {d.destination && (
+              <NavButtons location={d.destination} className="mt-3" />
+            )}
           </div>
         ))}
       </div>
 
       <section className="mt-6">
-        <h2 className="text-sm font-semibold text-foreground/60 mb-3">
-          🏍️ השכרת אופנוע (~100€/יום)
+        <h2 className="flex items-center gap-1.5 text-sm font-semibold text-foreground/60 mb-3">
+          <Bike size={16} /> השכרת אופנוע (~100€/יום)
         </h2>
         <div className="flex flex-col gap-2">
           {RENTAL_OPTIONS.map((r) => (
@@ -60,11 +78,13 @@ export default function MotoPage() {
       </section>
 
       <section className="mt-6 rounded-2xl border border-border bg-surface-muted p-4">
-        <h2 className="text-sm font-semibold mb-2.5">🛡️ הנחיות בטיחות</h2>
+        <h2 className="flex items-center gap-1.5 text-sm font-semibold mb-2.5">
+          <ShieldCheck size={16} /> הנחיות בטיחות
+        </h2>
         <ul className="flex flex-col gap-2 text-sm text-foreground/70">
           {MOTO_SAFETY_NOTES.map((note, i) => (
             <li key={i} className="flex gap-2">
-              <span className="text-accent">✓</span>
+              <Check size={15} className="text-accent shrink-0 mt-0.5" />
               <span>{note}</span>
             </li>
           ))}

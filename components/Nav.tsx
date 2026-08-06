@@ -2,24 +2,44 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import {
+  Home,
+  CalendarDays,
+  Plane,
+  Hotel as HotelIcon,
+  PartyPopper,
+  Bike,
+  ShieldAlert,
+  Wallet,
+  ListChecks,
+  Backpack,
+  Headphones,
+  Car,
+  UtensilsCrossed,
+  type LucideIcon,
+} from "lucide-react";
+import VersionBadge from "./VersionBadge";
 
 export type NavItem = {
   href: string;
   label: string;
-  icon: string;
+  icon: LucideIcon;
 };
 
 export const NAV_ITEMS: NavItem[] = [
-  { href: "/", label: "בית", icon: "🏠" },
-  { href: "/flights", label: "טיסות", icon: "✈️" },
-  { href: "/hotel", label: "לינה", icon: "🏨" },
-  { href: "/congress", label: "קונגרס", icon: "💃" },
-  { href: "/moto", label: "רכיבה", icon: "🏍️" },
-  { href: "/expenses", label: "כספים", icon: "💶" },
-  { href: "/todo", label: "משימות", icon: "✅" },
-  { href: "/music", label: "מוזיקה", icon: "🎧" },
-  { href: "/transport", label: "ניידות", icon: "🚕" },
-  { href: "/food", label: "קולינריה", icon: "🍽️" },
+  { href: "/", label: "בית", icon: Home },
+  { href: "/itinerary", label: "לו״ז מלא", icon: CalendarDays },
+  { href: "/flights", label: "טיסות", icon: Plane },
+  { href: "/hotel", label: "לינה", icon: HotelIcon },
+  { href: "/congress", label: "קונגרס", icon: PartyPopper },
+  { href: "/moto", label: "רכיבה", icon: Bike },
+  { href: "/documents", label: "מסמכים", icon: ShieldAlert },
+  { href: "/expenses", label: "כספים", icon: Wallet },
+  { href: "/todo", label: "משימות", icon: ListChecks },
+  { href: "/packing", label: "ציוד", icon: Backpack },
+  { href: "/music", label: "מוזיקה", icon: Headphones },
+  { href: "/transport", label: "ניידות", icon: Car },
+  { href: "/food", label: "קולינריה", icon: UtensilsCrossed },
 ];
 
 function isActive(pathname: string, href: string) {
@@ -40,6 +60,7 @@ export default function Nav() {
         <ul className="flex overflow-x-auto snap-x snap-mandatory gap-1 px-1 pt-1 no-scrollbar">
           {NAV_ITEMS.map((item) => {
             const active = isActive(pathname, item.href);
+            const Icon = item.icon;
             return (
               <li key={item.href} className="snap-start shrink-0">
                 <Link
@@ -51,7 +72,7 @@ export default function Nav() {
                   }`}
                   aria-current={active ? "page" : undefined}
                 >
-                  <span className="text-xl leading-none">{item.icon}</span>
+                  <Icon size={20} strokeWidth={active ? 2.4 : 2} className="shrink-0" />
                   <span className="whitespace-nowrap">{item.label}</span>
                 </Link>
               </li>
@@ -73,9 +94,10 @@ export default function Nav() {
             קונגרס סלסה + רכיבת אופנוע
           </p>
         </div>
-        <ul className="flex flex-col gap-1">
+        <ul className="flex flex-col gap-1 overflow-y-auto">
           {NAV_ITEMS.map((item) => {
             const active = isActive(pathname, item.href);
+            const Icon = item.icon;
             return (
               <li key={item.href}>
                 <Link
@@ -87,13 +109,16 @@ export default function Nav() {
                   }`}
                   aria-current={active ? "page" : undefined}
                 >
-                  <span className="text-lg leading-none">{item.icon}</span>
+                  <Icon size={18} strokeWidth={active ? 2.4 : 2} className="shrink-0" />
                   <span>{item.label}</span>
                 </Link>
               </li>
             );
           })}
         </ul>
+        <div className="mt-auto px-3 pt-4">
+          <VersionBadge />
+        </div>
       </nav>
     </>
   );
