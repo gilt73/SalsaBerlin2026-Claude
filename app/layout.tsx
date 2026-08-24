@@ -1,9 +1,11 @@
 import type { Metadata, Viewport } from "next";
 import { Heebo } from "next/font/google";
+import Script from "next/script";
 import "./globals.css";
 import Nav from "@/components/Nav";
 import FloatingHomeButton from "@/components/FloatingHomeButton";
 import ServiceWorkerRegister from "@/components/ServiceWorkerRegister";
+import { THEME_INIT_SCRIPT } from "@/lib/theme";
 
 const heebo = Heebo({
   subsets: ["hebrew", "latin"],
@@ -39,6 +41,9 @@ export default function RootLayout({
   return (
     <html lang="he" dir="rtl" className={`${heebo.variable} h-full`}>
       <body className="min-h-full flex flex-col antialiased">
+        <Script id="theme-init" strategy="beforeInteractive">
+          {THEME_INIT_SCRIPT}
+        </Script>
         <ServiceWorkerRegister />
         <Nav />
         <FloatingHomeButton />

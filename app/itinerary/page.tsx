@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import {
   CalendarDays,
   Plane,
@@ -8,6 +8,9 @@ import {
   LogOut,
   PartyPopper,
   Bike,
+  MessageSquarePlus,
+  Pencil,
+  X,
   type LucideIcon,
 } from "lucide-react";
 import NavButtons from "@/components/NavButtons";
@@ -34,6 +37,84 @@ type Entry = {
   isSample?: boolean;
 };
 
+function EntryNote({
+  note,
+  onSave,
+}: {
+  note: string | undefined;
+  onSave: (text: string) => void;
+}) {
+  const [editing, setEditing] = useState(false);
+  const [draft, setDraft] = useState(note ?? "");
+
+  function save() {
+    onSave(draft.trim());
+    setEditing(false);
+  }
+
+  if (editing) {
+    return (
+      <div className="flex items-center gap-2 mt-2">
+        <input
+          autoFocus
+          value={draft}
+          onChange={(e) => setDraft(e.target.value)}
+          onKeyDown={(e) => e.key === "Enter" && save()}
+          placeholder="לדוגמה: לקחת קרם הגנה"
+          className="flex-1 rounded-lg border border-border bg-background px-2.5 py-1.5 text-xs"
+        />
+        <button onClick={save} className="text-xs font-semibold text-accent shrink-0">
+          שמירה
+        </button>
+        <button
+          onClick={() => setEditing(false)}
+          className="text-foreground/35 shrink-0"
+          aria-label="ביטול"
+        >
+          <X size={14} />
+        </button>
+      </div>
+    );
+  }
+
+  if (note) {
+    return (
+      <div className="flex items-start gap-1.5 mt-2">
+        <p className="flex-1 text-xs font-medium text-brand-2">הערה: {note}</p>
+        <button
+          onClick={() => {
+            setDraft(note);
+            setEditing(true);
+          }}
+          className="text-foreground/35 hover:text-foreground/60 shrink-0"
+          aria-label="עריכת הערה"
+        >
+          <Pencil size={12} />
+        </button>
+        <button
+          onClick={() => onSave("")}
+          className="text-foreground/35 hover:text-danger shrink-0"
+          aria-label="מחיקת הערה"
+        >
+          <X size={14} />
+        </button>
+      </div>
+    );
+  }
+
+  return (
+    <button
+      onClick={() => {
+        setDraft("");
+        setEditing(true);
+      }}
+      className="inline-flex items-center gap-1 text-[11px] text-foreground/35 hover:text-foreground/60 mt-2"
+    >
+      <MessageSquarePlus size={12} /> הוספת הערה
+    </button>
+  );
+}
+
 export default function ItineraryPage() {
   const [hotelStays] = useLocalStorage<HotelStay[]>("hotelStays", [REAL_HOTEL]);
   const [congressEvents] = useLocalStorage<CongressEvent[]>(
@@ -42,6 +123,19 @@ export default function ItineraryPage() {
   );
   const [flights] = useLocalStorage<FlightLeg[]>("flights", REAL_FLIGHTS);
   const [motoDays] = useLocalStorage<MotoDay[]>("motoDays", MOTO_DAYS);
+  const [notes, setNotes] = useLocalStorage<Record<string, string>>(
+    "itineraryNotes",
+    {}
+  );
+
+  function saveNote(id: string, text: string) {
+    setNotes((prev) => {
+      const next = { ...prev };
+      if (text) next[id] = text;
+      else delete next[id];
+      return next;
+    });
+  }
 
   const grouped = useMemo(() => {
     const entries: Entry[] = [];
@@ -169,6 +263,10 @@ export default function ItineraryPage() {
                         )}
                         {e.location && <NavButtons location={e.location} />}
                       </div>
+                      <EntryNote
+                        note={notes[e.id]}
+                        onSave={(text) => saveNote(e.id, text)}
+                      />
                     </div>
                   </li>
                 );

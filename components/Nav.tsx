@@ -19,6 +19,7 @@ import {
   type LucideIcon,
 } from "lucide-react";
 import VersionBadge from "./VersionBadge";
+import ThemeToggle from "./ThemeToggle";
 
 export type NavItem = {
   href: string;
@@ -116,8 +117,9 @@ export default function Nav() {
             );
           })}
         </ul>
-        <div className="mt-auto px-3 pt-4">
+        <div className="mt-auto px-3 pt-4 flex items-center justify-between">
           <VersionBadge />
+          <ThemeToggle />
         </div>
       </nav>
     </>

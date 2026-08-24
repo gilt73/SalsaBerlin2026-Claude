@@ -18,6 +18,7 @@ import {
 import Countdown from "@/components/Countdown";
 import QuickCard from "@/components/QuickCard";
 import VersionBadge from "@/components/VersionBadge";
+import ThemeToggle from "@/components/ThemeToggle";
 import { formatDateHe } from "@/lib/date";
 import { useLocalStorage } from "@/lib/storage";
 import {
@@ -60,7 +61,10 @@ export default function DashboardPage() {
             </p>
           )}
         </div>
-        <VersionBadge className="lg:hidden shrink-0 mt-1" />
+        <div className="lg:hidden shrink-0 mt-1 flex flex-col items-end gap-1.5">
+          <VersionBadge />
+          <ThemeToggle />
+        </div>
       </header>
 
       <section

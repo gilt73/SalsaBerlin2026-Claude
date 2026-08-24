@@ -51,3 +51,17 @@ ships, at which point it becomes the next whole version (Phase 2 → 2.0).
   post-deploy propagation window could bake a stale page into that
   version's cache permanently. Precache fetches now force
   `{cache: "reload"}`.
+
+## [2.2.0]
+
+- Theme toggle: a tappable control (dashboard header on mobile, sidebar
+  footer on desktop) cycles אוטומטי (מערכת) → בהיר → כהה. Applies
+  instantly via a `data-theme` attribute, no reload; an inline
+  before-hydration script (lib/theme.ts THEME_INIT_SCRIPT) applies the
+  stored choice before first paint so there's no flash of the wrong
+  theme
+- Per-item notes on /itinerary: every entry (flight, check-in/out,
+  congress session, moto day) can now have a short personal note added
+  from the phone — persisted to localStorage, shown as "הערה: …" in
+  brand-2 (amber-gold) right under the entry, editable/removable
+  in-place
