@@ -90,3 +90,8 @@ ships, at which point it becomes the next whole version (Phase 2 → 2.0).
   the next time /congress loads, but only when every stored event is
   still untouched placeholder data (never overwrites anything the user
   added themselves)
+
+## [2.3.1]
+
+- The floating "navigate to hotel" button now opens Google Maps
+  instead of Waze.

@@ -1,7 +1,7 @@
 "use client";
 
 import { Home } from "lucide-react";
-import { wazeLink } from "@/lib/navLinks";
+import { googleMapsLink } from "@/lib/navLinks";
 import { useLocalStorage } from "@/lib/storage";
 import { REAL_HOTEL } from "@/lib/tripData";
 import { HotelStay } from "@/lib/types";
@@ -36,7 +36,7 @@ export default function FloatingHomeButton() {
 
   return (
     <a
-      href={wazeLink({ name: hotel.name, address: `${hotel.address} ${hotel.city}` })}
+      href={googleMapsLink({ name: hotel.name, address: `${hotel.address} ${hotel.city}` })}
       target="_blank"
       rel="noreferrer"
       aria-label={`ניווט מהיר חזרה ל${hotel.name}`}
