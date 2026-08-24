@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { PartyPopper, Ticket, MessageCircle, Gift, CreditCard, Clock, ClipboardList, X } from "lucide-react";
 import NavButtons from "@/components/NavButtons";
 import PageHeader from "@/components/PageHeader";
@@ -41,6 +41,20 @@ export default function CongressPage() {
   );
   const [showForm, setShowForm] = useState(false);
   const [form, setForm] = useState(EMPTY_FORM);
+
+  // One-time migration: a device that already loaded this app has its
+  // own placeholder schedule cached in localStorage from before — just
+  // updating SAMPLE_CONGRESS_EVENTS in code doesn't reach it. If every
+  // stored event is still marked isSample (i.e. nothing the user typed
+  // in themselves), it's safe to swap in the newly-known real schedule.
+  // Once real events land, isSample stops being true for all of them,
+  // so this naturally never overwrites anything again after that.
+  useEffect(() => {
+    if (!hydrated) return;
+    if (events.length > 0 && events.every((e) => e.isSample)) {
+      setEvents(SAMPLE_CONGRESS_EVENTS);
+    }
+  }, [hydrated, events, setEvents]);
 
   const grouped = useMemo(() => {
     const sorted = [...events].sort((a, b) =>

@@ -77,3 +77,16 @@ ships, at which point it becomes the next whole version (Phase 2 → 2.0).
   reg.installing/reg.waiting immediately after reg.update() resolves:
   genuinely nothing to install resolves fast, a real install gets a
   proper 15s window before giving up.
+
+## [2.3.0]
+
+- Real Salsa Congress workshop schedule: 5 confirmed sessions (Fri
+  Salsa Fusion Footwork on2, Sat x4 Partnerwork on2 / Bodymovement)
+  replace the earlier all-placeholder sample schedule
+- One-time auto-migration on /congress: since the placeholder schedule
+  was already cached in localStorage on any device that had opened the
+  app before, updating the seed data in code alone wouldn't reach it —
+  added a safe migration that swaps in the real schedule automatically
+  the next time /congress loads, but only when every stored event is
+  still untouched placeholder data (never overwrites anything the user
+  added themselves)
