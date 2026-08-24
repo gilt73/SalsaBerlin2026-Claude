@@ -50,7 +50,14 @@ self.addEventListener("install", (event) => {
   event.waitUntil(
     caches.open(CACHE_NAME).then((cache) =>
       Promise.allSettled(
-        APP_SHELL.map((url) => cache.add(url).catch(() => {}))
+        // {cache: "reload"} bypasses the HTTP cache — without it, a
+        // precache fetch that happens to land during a CDN's brief
+        // post-deploy propagation window can bake a stale response
+        // into this version's cache permanently (its name won't
+        // change again until the next release).
+        APP_SHELL.map((url) =>
+          cache.add(new Request(url, { cache: "reload" })).catch(() => {})
+        )
       )
     )
   );

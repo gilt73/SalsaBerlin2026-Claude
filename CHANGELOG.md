@@ -42,3 +42,12 @@ ships, at which point it becomes the next whole version (Phase 2 → 2.0).
   is now generated from this file's version at build time
   (scripts/generate-sw.mjs), so every release gets a guaranteed-fresh
   cache — no more needing to reopen the app twice after an update
+
+## [2.1.1]
+
+- Fixed a real staleness bug caught while testing 2.1.0 live: the
+  service worker's install-time precache fetches didn't bypass the
+  HTTP cache, so a precache run landing during the CDN's brief
+  post-deploy propagation window could bake a stale page into that
+  version's cache permanently. Precache fetches now force
+  `{cache: "reload"}`.
