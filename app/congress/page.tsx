@@ -42,17 +42,28 @@ export default function CongressPage() {
   const [showForm, setShowForm] = useState(false);
   const [form, setForm] = useState(EMPTY_FORM);
 
-  // One-time migration: a device that already loaded this app has its
-  // own placeholder schedule cached in localStorage from before — just
-  // updating SAMPLE_CONGRESS_EVENTS in code doesn't reach it. If every
-  // stored event is still marked isSample (i.e. nothing the user typed
-  // in themselves), it's safe to swap in the newly-known real schedule.
-  // Once real events land, isSample stops being true for all of them,
-  // so this naturally never overwrites anything again after that.
+  // Sync migration: a device that already loaded this app has its own
+  // schedule cached in localStorage — just updating SAMPLE_CONGRESS_EVENTS
+  // in code doesn't reach it. Two safe, additive cases, checked every
+  // load:
+  //  A) still 100% untouched placeholder data (isSample) -> full replace
+  //     with whatever the real schedule is now.
+  //  B) already has real events, but a newer confirmed session (added
+  //     later in code) isn't present yet by id -> append just that,
+  //     never touching or removing anything already there (including
+  //     anything the user added or deleted themselves).
   useEffect(() => {
     if (!hydrated) return;
+
     if (events.length > 0 && events.every((e) => e.isSample)) {
       setEvents(SAMPLE_CONGRESS_EVENTS);
+      return;
+    }
+
+    const knownIds = new Set(events.map((e) => e.id));
+    const missing = SAMPLE_CONGRESS_EVENTS.filter((e) => !knownIds.has(e.id));
+    if (missing.length > 0) {
+      setEvents((prev) => [...prev, ...missing]);
     }
   }, [hydrated, events, setEvents]);
 

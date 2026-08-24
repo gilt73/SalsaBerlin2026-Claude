@@ -200,6 +200,15 @@ export const MOTO_SAFETY_NOTES = [
 // and further slots get confirmed.
 export const SAMPLE_CONGRESS_EVENTS: CongressEvent[] = [
   {
+    id: "c-fri-0",
+    day: "יום שישי",
+    date: "2026-08-28",
+    startTime: "15:00",
+    endTime: "18:00",
+    title: "Social Dance Training | Fuquan & Candace (Male)",
+    category: "workshop",
+  },
+  {
     id: "c-fri-1",
     day: "יום שישי",
     date: "2026-08-28",

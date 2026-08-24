@@ -105,3 +105,15 @@ ships, at which point it becomes the next whole version (Phase 2 → 2.0).
   cached the old checkout date picks up the correction automatically
   (matches by the hotel's known id, touches only that record, never
   overwrites any stay the user added themselves).
+
+## [2.3.3]
+
+- Added confirmed session: Social Dance Training | Fuquan & Candace
+  (Male), Fri 28/08 15:00–18:00
+- Generalized the /congress migration from a one-time placeholder
+  replace into an ongoing sync: any confirmed session added to the
+  seed data in code that isn't yet present by id on a device gets
+  appended automatically on next load, without touching anything else
+  already there. Needed because the earlier migration only fired once
+  (already consumed by devices that picked up the first 5 real
+  sessions) and wouldn't have reached this 6th one otherwise.
