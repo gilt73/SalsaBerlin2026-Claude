@@ -80,19 +80,21 @@ export const FLIGHT_BOOKING_SUMMARY = {
 };
 
 // Real hotel booking — confirmed 05/08/2026 (IHG confirmation #87008071).
+// Extended by Gil on 25/08/2026 to cover the full trip (26/08–02/09)
+// under the same reservation, incl. the motorcycle-route nights.
 export const REAL_HOTEL: HotelStay = {
   id: "hotel-hiex-berlin",
   name: "Holiday Inn Express Berlin City Centre",
   address: "Stresemannstrasse 49, 10963",
   city: "Berlin, Germany",
   checkIn: "2026-08-26",
-  checkOut: "2026-08-31",
+  checkOut: "2026-09-02",
   checkInTime: "15:00",
   checkOutTime: "12:00",
   confirmationNumber: "87008071",
   mapUrl: "https://maps.google.com/?q=Stresemannstrasse+49+10963+Berlin",
   notes:
-    "Standard Room · Flexible Saver Member Exclusive Rate · 5 לילות · 506.53€ + 37.98€ תוספות = 544.51€ סה״כ · ניתן לביטול ללא עלות עד 7 ימים לפני ההגעה · טלפון: +49 30 20052800 · Front desk: berlin@hiexberlin.com",
+    "Standard Room · Flexible Saver Member Exclusive Rate · הזמנה הורחבה ל-7 לילות (26/08–02/09) תחת אותה הזמנה — מחיר מעודכן לא זמין, יש לעדכן כאן אם יתקבל אישור חדש · ניתן לביטול ללא עלות עד 7 ימים לפני ההגעה · טלפון: +49 30 20052800 · Front desk: berlin@hiexberlin.com",
   // Central Berlin, city-level precision — plenty for the weather chip;
   // navigation itself uses the exact address above, not these coordinates.
   lat: 52.502,

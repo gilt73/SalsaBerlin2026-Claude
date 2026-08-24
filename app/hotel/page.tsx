@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Hotel as HotelIcon, X } from "lucide-react";
 import NavButtons from "@/components/NavButtons";
 import PageHeader from "@/components/PageHeader";
@@ -24,6 +24,36 @@ export default function HotelPage() {
   ]);
   const [form, setForm] = useState(EMPTY_FORM);
   const [showForm, setShowForm] = useState(false);
+
+  // Targeted one-time patch: a device that already loaded this app has
+  // the hotel booking cached in its own localStorage from before, so
+  // updating REAL_HOTEL in code alone (e.g. the Sep-2 checkout
+  // extension) doesn't reach it. Only touches the one record matching
+  // REAL_HOTEL's id, and only the fields that changed — never touches
+  // any other stay the user added themselves.
+  useEffect(() => {
+    if (!hydrated) return;
+    setStays((prev) => {
+      const idx = prev.findIndex((s) => s.id === REAL_HOTEL.id);
+      if (idx === -1) return prev;
+      const current = prev[idx];
+      if (
+        current.checkOut === REAL_HOTEL.checkOut &&
+        current.checkOutTime === REAL_HOTEL.checkOutTime &&
+        current.notes === REAL_HOTEL.notes
+      ) {
+        return prev;
+      }
+      const next = [...prev];
+      next[idx] = {
+        ...current,
+        checkOut: REAL_HOTEL.checkOut,
+        checkOutTime: REAL_HOTEL.checkOutTime,
+        notes: REAL_HOTEL.notes,
+      };
+      return next;
+    });
+  }, [hydrated, setStays]);
 
   function addStay(e: React.FormEvent) {
     e.preventDefault();
@@ -49,11 +79,11 @@ export default function HotelPage() {
       />
 
       <div className="rounded-2xl border border-border bg-surface-muted p-4 text-sm text-foreground/70 mb-5">
-        <p className="font-semibold text-foreground mb-1">💡 עוד לינה נדרשת</p>
+        <p className="font-semibold text-foreground mb-1">💡 לינה לכל הטיול</p>
         <p>
-          המלון בברלין (26–31/08) מאושר. עבור אזור מוריץ וורניגרודה לאורך
-          מסלול הרכיבה (31/08–02/09) עדיין לא נמצאה הזמנה בתיבת הדואר —
-          הוסיפו כאן כשתתבצע.
+          המלון בברלין מוזמן לכל התקופה (26/08–02/09) תחת אותה הזמנה,
+          כולל ימי מסלול הרכיבה. אם בסופו של דבר תוסיפו לינה נפרדת
+          באזור מוריץ/ורניגרודה — הוסיפו אותה כאן.
         </p>
       </div>
 

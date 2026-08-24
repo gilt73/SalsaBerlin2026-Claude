@@ -95,3 +95,13 @@ ships, at which point it becomes the next whole version (Phase 2 → 2.0).
 
 - The floating "navigate to hotel" button now opens Google Maps
   instead of Waze.
+
+## [2.3.2]
+
+- Hotel booking extended: Holiday Inn Express Berlin now covers the
+  full trip (26/08–02/09) under the same reservation, including the
+  motorcycle-route nights — was previously 26/08–31/08 only.
+- Added a targeted one-time patch on /hotel so a device that already
+  cached the old checkout date picks up the correction automatically
+  (matches by the hotel's known id, touches only that record, never
+  overwrites any stay the user added themselves).
