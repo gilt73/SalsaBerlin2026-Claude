@@ -18,12 +18,15 @@ import {
 import Countdown from "@/components/Countdown";
 import QuickCard from "@/components/QuickCard";
 import VersionBadge from "@/components/VersionBadge";
+import { formatDateHe } from "@/lib/date";
+import { useLocalStorage } from "@/lib/storage";
 import {
   CONGRESS_START_ISO,
   OUTBOUND_DEPARTURE_ISO,
   REAL_FLIGHTS,
   TRIP_TITLE,
 } from "@/lib/tripData";
+import { FlightLeg } from "@/lib/types";
 
 const QUICK_LINKS = [
   { href: "/itinerary", title: "לו״ז מלא", subtitle: "כל הטיול, יום אחר יום", icon: CalendarDays },
@@ -41,7 +44,9 @@ const QUICK_LINKS = [
 ];
 
 export default function DashboardPage() {
-  const outbound = REAL_FLIGHTS.find((f) => f.direction === "outbound")!;
+  const [flights] = useLocalStorage<FlightLeg[]>("flights", REAL_FLIGHTS);
+  const outbound = flights.find((f) => f.direction === "outbound");
+  const inbound = flights.find((f) => f.direction === "return");
 
   return (
     <div>
@@ -49,9 +54,11 @@ export default function DashboardPage() {
         <div>
           <p className="text-sm font-medium text-brand-2">מרכז שליטה לטיול</p>
           <h1 className="text-2xl font-extrabold mt-1">{TRIP_TITLE}</h1>
-          <p className="text-sm text-foreground/55 mt-1">
-            {outbound.date} – {REAL_FLIGHTS[1].arriveDate} · תל אביב ⇄ ברלין
-          </p>
+          {outbound && inbound && (
+            <p className="text-sm text-foreground/55 mt-1">
+              {formatDateHe(outbound.date)} – {formatDateHe(inbound.arriveDate)} · תל אביב ⇄ ברלין
+            </p>
+          )}
         </div>
         <VersionBadge className="lg:hidden shrink-0 mt-1" />
       </header>

@@ -5,6 +5,7 @@ import { PartyPopper, Ticket, MessageCircle, Gift, CreditCard, Clock, ClipboardL
 import NavButtons from "@/components/NavButtons";
 import PageHeader from "@/components/PageHeader";
 import WeatherChip from "@/components/WeatherChip";
+import { formatDateHe } from "@/lib/date";
 import { useLocalStorage, genId } from "@/lib/storage";
 import { CONGRESS_START_ISO, CONGRESS_TICKET, SAMPLE_CONGRESS_EVENTS } from "@/lib/tripData";
 import { CongressEvent } from "@/lib/types";
@@ -142,7 +143,7 @@ export default function CongressPage() {
         {grouped.map(([key, dayEvents]) => (
           <section key={key}>
             <h2 className="text-sm font-bold text-foreground/70 mb-2.5 sticky top-0 bg-background/90 backdrop-blur py-1">
-              {dayEvents[0].day} · {dayEvents[0].date}
+              {dayEvents[0].day} · {formatDateHe(dayEvents[0].date)}
             </h2>
             <ol className="flex flex-col gap-2.5">
               {dayEvents.map((ev) => (
