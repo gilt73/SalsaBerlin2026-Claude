@@ -65,3 +65,15 @@ ships, at which point it becomes the next whole version (Phase 2 → 2.0).
   from the phone — persisted to localStorage, shown as "הערה: …" in
   brand-2 (amber-gold) right under the entry, editable/removable
   in-place
+
+## [2.2.1]
+
+- Fixed a real false-negative caught testing 2.2.0's update-check live:
+  the button gave up and reported "up to date" after a fixed 3s wait,
+  but a genuine install (fetching + reload-precaching every app-shell
+  route) can legitimately take longer than that — so it can finish
+  *after* the button already told you nothing was happening, even
+  though the update actually lands moments later regardless. Now checks
+  reg.installing/reg.waiting immediately after reg.update() resolves:
+  genuinely nothing to install resolves fast, a real install gets a
+  proper 15s window before giving up.
