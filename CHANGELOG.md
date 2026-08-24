@@ -27,3 +27,18 @@ ships, at which point it becomes the next whole version (Phase 2 → 2.0).
 - Packing list: categorized, interactive checklist
 - Visual redesign: lucide-react icon set replacing emoji, polish pass
   across every page
+
+## [2.1.0]
+
+- Flights and Motorcycle route days are now editable in-app (same
+  add/edit/delete pattern as Hotel/Congress) — the whole /itinerary can
+  be kept current from the phone alone, no code/redeploy needed
+- Color rebrand: "Berry Night" palette (wine red / amber gold / dark
+  teal) replacing the original orange, chosen from a set of design
+  exploration mockups
+- Check for updates: the version badge (dashboard header + desktop
+  sidebar) is now tappable — forces the service worker to check for a
+  new release and reloads automatically once found. The SW's cache name
+  is now generated from this file's version at build time
+  (scripts/generate-sw.mjs), so every release gets a guaranteed-fresh
+  cache — no more needing to reopen the app twice after an update

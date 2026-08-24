@@ -1,9 +1,11 @@
 {
   "name": "salsaberlin2026-claude",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "private": true,
   "scripts": {
+    "predev": "node scripts/generate-sw.mjs",
     "dev": "next dev",
+    "prebuild": "node scripts/generate-sw.mjs",
     "build": "next build",
     "start": "next start",
     "lint": "eslint"
