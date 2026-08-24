@@ -1,33 +1,42 @@
 @import "tailwindcss";
 
+/* "Berry Night" palette — deep wine-red primary, warm amber-gold
+   secondary, dark teal accent. Chosen from the Salsa Pulse direction
+   mockups (see design exploration) over the original orange. */
 :root {
-  --background: #faf7f5;
-  --foreground: #1e1b2e;
-  --surface: #ffffff;
-  --surface-muted: #f2eef0;
-  --border: #e7e1e6;
-  --brand-1: #f97316; /* salsa orange */
-  --brand-2: #ec4899; /* salsa pink */
-  --brand-3: #1e293b; /* road / moto steel */
-  --accent: #14b8a6; /* teal accent */
+  --background: #fbf3f1;
+  --foreground: #2c1015;
+  --surface: #fff9f8;
+  --surface-muted: #f5e9e6;
+  --border: #ead9d4;
+  --brand-1: #a11d3b; /* wine red */
+  --brand-2: #c9822e; /* amber gold */
+  --brand-3: #4a2a28; /* deep neutral plum-brown */
+  --accent: #1f6f6b; /* dark teal */
   --danger: #dc2626;
 }
 
 :root[data-theme="dark"] {
-  --background: #121017;
-  --foreground: #f4eef2;
-  --surface: #1c1922;
-  --surface-muted: #262230;
-  --border: #332d3d;
+  --background: #17100f;
+  --foreground: #f4e8e4;
+  --surface: #241615;
+  --surface-muted: #2e1b19;
+  --border: #3d2320;
+  --brand-1: #d6486a;
+  --brand-2: #d99a47;
+  --accent: #2e8f89;
 }
 
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
-    --background: #121017;
-    --foreground: #f4eef2;
-    --surface: #1c1922;
-    --surface-muted: #262230;
-    --border: #332d3d;
+    --background: #17100f;
+    --foreground: #f4e8e4;
+    --surface: #241615;
+    --surface-muted: #2e1b19;
+    --border: #3d2320;
+    --brand-1: #d6486a;
+    --brand-2: #d99a47;
+    --accent: #2e8f89;
   }
 }
 

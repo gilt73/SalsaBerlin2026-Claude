@@ -13,10 +13,14 @@ import {
 import NavButtons from "@/components/NavButtons";
 import PageHeader from "@/components/PageHeader";
 import WeatherChip from "@/components/WeatherChip";
-import { toISODate } from "@/lib/date";
 import { useLocalStorage } from "@/lib/storage";
-import { MOTO_DAYS, REAL_FLIGHTS, REAL_HOTEL, SAMPLE_CONGRESS_EVENTS } from "@/lib/tripData";
-import { CongressEvent, HotelStay, Location } from "@/lib/types";
+import {
+  MOTO_DAYS,
+  REAL_FLIGHTS,
+  REAL_HOTEL,
+  SAMPLE_CONGRESS_EVENTS,
+} from "@/lib/tripData";
+import { CongressEvent, FlightLeg, HotelStay, Location, MotoDay } from "@/lib/types";
 
 type Entry = {
   id: string;
@@ -36,14 +40,16 @@ export default function ItineraryPage() {
     "congressEvents",
     SAMPLE_CONGRESS_EVENTS
   );
+  const [flights] = useLocalStorage<FlightLeg[]>("flights", REAL_FLIGHTS);
+  const [motoDays] = useLocalStorage<MotoDay[]>("motoDays", MOTO_DAYS);
 
   const grouped = useMemo(() => {
     const entries: Entry[] = [];
 
-    for (const f of REAL_FLIGHTS) {
+    for (const f of flights) {
       entries.push({
         id: `flight-${f.id}`,
-        dateISO: toISODate(f.date),
+        dateISO: f.date,
         time: f.departTime,
         sortKey: f.departTime,
         icon: Plane,
@@ -87,10 +93,10 @@ export default function ItineraryPage() {
       });
     }
 
-    for (const d of MOTO_DAYS) {
+    for (const d of motoDays) {
       entries.push({
         id: `moto-${d.id}`,
-        dateISO: toISODate(d.date),
+        dateISO: d.date,
         sortKey: "12:30", // no real departure time known — sorts mid-day, not displayed
         icon: Bike,
         title: `רכיבה: ${d.day}`,
@@ -109,7 +115,7 @@ export default function ItineraryPage() {
       list.sort((a, b) => a.sortKey.localeCompare(b.sortKey));
     }
     return Array.from(byDate.entries()).sort(([a], [b]) => a.localeCompare(b));
-  }, [hotelStays, congressEvents]);
+  }, [hotelStays, congressEvents, flights, motoDays]);
 
   return (
     <div>

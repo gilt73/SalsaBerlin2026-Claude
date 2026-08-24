@@ -13,7 +13,7 @@ export default function AppleIcon() {
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
-          background: "linear-gradient(135deg, #f97316, #ec4899)",
+          background: "linear-gradient(135deg, #A11D3B, #C9822E)",
         }}
       >
         <div style={{ fontSize: 100, display: "flex" }}>🏍️</div>

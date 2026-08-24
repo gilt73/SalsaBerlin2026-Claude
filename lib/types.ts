@@ -18,12 +18,12 @@ export type FlightLeg = {
   operatedBy?: string;
   flightNumber: string;
   bookingRef: string;
-  date: string; // dd/mm/yyyy
+  date: string; // yyyy-mm-dd
   departTime: string; // HH:mm
   departAirport: string;
   departCode: string;
   departLocation?: Location;
-  arriveDate: string; // dd/mm/yyyy
+  arriveDate: string; // yyyy-mm-dd
   arriveTime: string; // HH:mm
   arriveAirport: string;
   arriveCode: string;
@@ -63,7 +63,7 @@ export type CongressEvent = {
 export type MotoDay = {
   id: string;
   day: string;
-  date: string;
+  date: string; // yyyy-mm-dd
   route: string;
   duration: string;
   highlights: string;
